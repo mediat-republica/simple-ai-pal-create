@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -40,6 +41,7 @@ import {
 } from 'lucide-react';
 import { LegalTextHistoryTab } from './legal/LegalTextHistoryTab';
 import { LegalStatusBadge } from './legal/LegalStatusBadge';
+import { LegalTextsPendingApprovalTab } from './legal/LegalTextsPendingApprovalTab';
 
 interface LegalTextsTabsProps {
   section: string;
@@ -1225,7 +1227,8 @@ export function LegalTextsTabs({ section, onAddLegalText, onOpenApprovalQueue }:
         return {
           defaultValue: 'enrichment',
           tabs: [
-            { value: 'enrichment', label: 'Alimentation', content: renderEnrichmentTab() }
+            { value: 'enrichment', label: 'Alimentation', content: renderEnrichmentTab() },
+            { value: 'pending-approval', label: 'Textes juridiques en attente de publication', content: <LegalTextsPendingApprovalTab /> }
           ]
         };
       case 'legal-search':

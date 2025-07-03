@@ -1,370 +1,317 @@
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { 
-  PenTool, 
   FileText, 
-  Download, 
-  Save, 
-  Copy, 
-  Wand2, 
+  Book, 
+  Scale, 
+  Gavel, 
+  Building, 
+  Users,
+  PenTool,
+  Sparkles,
+  Bot,
+  Download,
+  Eye,
+  Save,
+  Search,
+  Filter,
+  Star,
+  Clock,
   BookOpen,
-  CheckCircle,
-  AlertTriangle,
-  Lightbulb,
-  ClipboardList
-} from "lucide-react";
-import { ConsolidatedTextsSection } from "@/components/writing/ConsolidatedTextsSection";
-import { ConsolidatedProceduresSection } from "@/components/writing/ConsolidatedProceduresSection";
+  Shield,
+  Globe
+} from 'lucide-react';
+import { ConsolidatedTextsSection } from './writing/ConsolidatedTextsSection';
+import { ConsolidatedProceduresSection } from './writing/ConsolidatedProceduresSection';
 
-interface EnhancedAssistedWritingSectionProps {
-  language?: string;
-}
+export function EnhancedAssistedWritingSection() {
+  const [activeSection, setActiveSection] = useState('overview');
 
-export function EnhancedAssistedWritingSection({ language = "fr" }: EnhancedAssistedWritingSectionProps) {
-  const [selectedTemplate, setSelectedTemplate] = useState("");
-  const [documentContent, setDocumentContent] = useState("");
-  const [activeTab, setActiveTab] = useState("templates");
-
-  const modelsAlgeriens = [
-    {
-      id: "contrat-bail",
-      nom: "Contrat de bail d'habitation",
-      categorie: "Contrats",
-      description: "Modèle de contrat de bail conforme au droit algérien",
-      clauses: ["Identification des parties", "Description du bien", "Durée et loyer", "Obligations des parties"],
-      exemple: "CONTRAT DE BAIL D'HABITATION\n\nEntre les soussignés :\nM./Mme [NOM BAILLEUR], demeurant à [ADRESSE], ci-après dénommé(e) « le Bailleur »\n\net\n\nM./Mme [NOM LOCATAIRE], demeurant à [ADRESSE], ci-après dénommé(e) « le Locataire »\n\nIL A ÉTÉ CONVENU CE QUI SUIT :\n\nArticle 1 - Objet\nLe Bailleur donne en location au Locataire un logement situé à [ADRESSE COMPLETE], d'une superficie de [X] m²..."
-    },
-    {
-      id: "statuts-sarl",
-      nom: "Statuts de SARL",
-      categorie: "Sociétés",
-      description: "Statuts types pour création de SARL en Algérie",
-      clauses: ["Dénomination sociale", "Objet social", "Capital social", "Gérance"],
-      exemple: "STATUTS DE LA SOCIÉTÉ À RESPONSABILITÉ LIMITÉE\n« [DENOMINATION SOCIALE] »\n\nTITRE I - CONSTITUTION - DENOMINATION - OBJET - SIEGE - DUREE\n\nArticle 1 - Constitution\nIl est formé entre les propriétaires des parts ci-après créées et de celles qui pourraient l'être ultérieurement, une société à responsabilité limitée qui sera régie par les lois et règlements en vigueur en Algérie..."
-    },
-    {
-      id: "requete-tribunal",
-      nom: "Requête introductive d'instance",
-      categorie: "Procédures",
-      description: "Modèle de requête devant les tribunaux algériens",
-      clauses: ["Identification des parties", "Exposé des faits", "Prétentions", "Pièces jointes"],
-      exemple: "REQUÊTE INTRODUCTIVE D'INSTANCE\n\nMonsieur le Président du Tribunal de [LIEU],\n\nJ'ai l'honneur de vous exposer ce qui suit :\n\nIDENTIFICATION DU DEMANDEUR :\nM./Mme [NOM PRÉNOM], né(e) le [DATE] à [LIEU], demeurant à [ADRESSE COMPLÈTE], profession [PROFESSION]..."
-    },
-    {
-      id: "testament",
-      nom: "Testament olographe",
-      categorie: "Succession",
-      description: "Modèle de testament conforme au Code de la famille algérien",
-      clauses: ["Identification du testateur", "Dispositions testamentaires", "Signature et date"],
-      exemple: "TESTAMENT OLOGRAPHE\n\nJe soussigné(e) [NOM PRÉNOM COMPLET], né(e) le [DATE] à [LIEU DE NAISSANCE], demeurant à [ADRESSE COMPLÈTE], sain(e) de corps et d'esprit, établis par les présentes mes dernières volontés :\n\nPREMIÈREMENT : Je révoque tous testaments antérieurs..."
-    }
-  ];
-
-  const suggestionsIA = [
-    {
-      type: "Amélioration",
-      texte: "Considérez d'ajouter une clause de résiliation anticipée",
-      niveau: "suggestion",
-      icone: Lightbulb
-    },
-    {
-      type: "Conformité",
-      texte: "Cette clause respecte l'article 467 du Code civil algérien",
-      niveau: "valide",
-      icone: CheckCircle
-    },
-    {
-      type: "Attention",
-      texte: "Vérifiez la compatibilité avec la loi n° 22-01 sur l'investissement",
-      niveau: "attention",
-      icone: AlertTriangle
-    }
-  ];
-
-  const referencesjuridiques = [
-    {
-      titre: "Code civil algérien - Article 467",
-      contenu: "Le bail ne peut excéder trois années pour les immeubles bâtis et dix années pour les terres agricoles.",
-      pertinence: "Haute"
-    },
-    {
-      titre: "Loi n° 07-02 du 27 février 2007 - Article 15",
-      contenu: "Toute société commerciale doit avoir un capital minimum fixé par la loi.",
-      pertinence: "Moyenne"
-    },
-    {
-      titre: "Code de procédure civile - Article 18",
-      contenu: "La requête introductive d'instance doit contenir l'indication précise de l'objet de la demande.",
-      pertinence: "Haute"
-    }
-  ];
-
-  const handleTemplateSelect = (templateId: string) => {
-    const template = modelsAlgeriens.find(t => t.id === templateId);
-    if (template) {
-      setSelectedTemplate(templateId);
-      setDocumentContent(template.exemple);
-    }
-  };
-
-  return (
+  const renderOverview = () => (
     <div className="space-y-6">
-      <div className="text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-2">
-          <PenTool className="w-8 h-8 text-teal-600" />
-          Rédaction Assistée Algérienne
-        </h2>
-        <p className="text-gray-600 text-lg">
-          Outils de rédaction juridique avec modèles conformes au droit algérien
+      {/* En-tête principal */}
+      <div className="text-center mb-8">
+        <PenTool className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
+        <h2 className="text-3xl font-bold text-gray-800 mb-3">Rédaction Assistée Algérienne</h2>
+        <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+          Plateforme intelligente de rédaction et consolidation des textes juridiques et procédures administratives algériennes
         </p>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="templates">Modèles</TabsTrigger>
-          <TabsTrigger value="editor">Éditeur</TabsTrigger>
-          <TabsTrigger value="suggestions">Suggestions IA</TabsTrigger>
-          <TabsTrigger value="references">Références</TabsTrigger>
-          <TabsTrigger value="consolidated-texts">Textes consolidés</TabsTrigger>
-          <TabsTrigger value="consolidated-procedures">Procédures consolid.</TabsTrigger>
-        </TabsList>
+      {/* Statistiques générales */}
+      <Card className="bg-gradient-to-r from-emerald-50 to-blue-50 border-emerald-200">
+        <CardHeader>
+          <CardTitle className="text-emerald-800">Tableau de bord - Rédaction Assistée</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+              <div className="text-3xl font-bold text-emerald-600">2,847</div>
+              <div className="text-sm text-gray-600">Textes consolidés</div>
+            </div>
+            <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+              <div className="text-3xl font-bold text-blue-600">1,456</div>
+              <div className="text-sm text-gray-600">Procédures consolidées</div>
+            </div>
+            <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+              <div className="text-3xl font-bold text-purple-600">89%</div>
+              <div className="text-sm text-gray-600">Taux de précision IA</div>
+            </div>
+            <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+              <div className="text-3xl font-bold text-orange-600">156</div>
+              <div className="text-sm text-gray-600">Rapports générés</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
-        <TabsContent value="templates" className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {modelsAlgeriens.map((modele) => (
-              <Card key={modele.id} className="hover:shadow-md transition-shadow cursor-pointer">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileText className="w-5 h-5 text-teal-600" />
-                    {modele.nom}
-                  </CardTitle>
-                  <Badge variant="outline">{modele.categorie}</Badge>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 mb-4">{modele.description}</p>
-                  
-                  <div className="space-y-2 mb-4">
-                    <h4 className="font-medium text-sm">Clauses incluses :</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {modele.clauses.map((clause, index) => (
-                        <Badge key={index} variant="outline" className="text-xs">
-                          {clause}
-                        </Badge>
-                      ))}
-                    </div>
+      {/* Sections principales de la rédaction assistée */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Textes consolidés */}
+        <Card className="hover:shadow-lg transition-shadow cursor-pointer border-emerald-200" onClick={() => setActiveSection('consolidated-texts')}>
+          <CardHeader>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
+                <Scale className="w-6 h-6 text-emerald-600" />
+              </div>
+              <div>
+                <CardTitle className="text-emerald-800">Textes juridiques consolidés</CardTitle>
+                <CardDescription>
+                  Consolidation automatique et mise à jour des textes juridiques algériens
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="text-center p-3 bg-emerald-50 rounded-lg">
+                  <div className="text-xl font-bold text-emerald-600">847</div>
+                  <div className="text-xs text-gray-600">Codes consolidés</div>
+                </div>
+                <div className="text-center p-3 bg-blue-50 rounded-lg">
+                  <div className="text-xl font-bold text-blue-600">1,234</div>
+                  <div className="text-xs text-gray-600">Lois mises à jour</div>
+                </div>
+                <div className="text-center p-3 bg-purple-50 rounded-lg">
+                  <div className="text-xl font-bold text-purple-600">456</div>
+                  <div className="text-xs text-gray-600">Décrets intégrés</div>
+                </div>
+                <div className="text-center p-3 bg-orange-50 rounded-lg">
+                  <div className="text-xl font-bold text-orange-600">89</div>
+                  <div className="text-xs text-gray-600">Nouvelles versions</div>
+                </div>
+              </div>
+              
+              <div className="flex gap-2">
+                <Button className="flex-1 bg-emerald-600 hover:bg-emerald-700" onClick={() => setActiveSection('consolidated-texts')}>
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  Voir les textes
+                </Button>
+                <Button variant="outline" className="border-emerald-600 text-emerald-600">
+                  <Download className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Procédures consolidées */}
+        <Card className="hover:shadow-lg transition-shadow cursor-pointer border-blue-200" onClick={() => setActiveSection('consolidated-procedures')}>
+          <CardHeader>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <FileText className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <CardTitle className="text-blue-800">Procédures consolidées</CardTitle>
+                <CardDescription>
+                  Consolidation et harmonisation des procédures administratives
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="text-center p-3 bg-blue-50 rounded-lg">
+                  <div className="text-xl font-bold text-blue-600">567</div>
+                  <div className="text-xs text-gray-600">Procédures mises à jour</div>
+                </div>
+                <div className="text-center p-3 bg-green-50 rounded-lg">
+                  <div className="text-xl font-bold text-green-600">123</div>
+                  <div className="text-xs text-gray-600">Nouvelles procédures</div>
+                </div>
+                <div className="text-center p-3 bg-purple-50 rounded-lg">
+                  <div className="text-xl font-bold text-purple-600">234</div>
+                  <div className="text-xs text-gray-600">Formulaires intégrés</div>
+                </div>
+                <div className="text-center p-3 bg-orange-50 rounded-lg">
+                  <div className="text-xl font-bold text-orange-600">45</div>
+                  <div className="text-xs text-gray-600">Institutions couvertes</div>
+                </div>
+              </div>
+              
+              <div className="flex gap-2">
+                <Button className="flex-1 bg-blue-600 hover:bg-blue-700" onClick={() => setActiveSection('consolidated-procedures')}>
+                  <FileText className="w-4 h-4 mr-2" />
+                  Voir les procédures
+                </Button>
+                <Button variant="outline" className="border-blue-600 text-blue-600">
+                  <Download className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Outils de rédaction assistée */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Bot className="w-5 h-5 text-purple-600" />
+            Outils de rédaction assistée par IA
+          </CardTitle>
+          <CardDescription>
+            Outils intelligents pour améliorer la qualité et la cohérence des textes juridiques
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+              <div className="flex items-center gap-3 mb-3">
+                <Sparkles className="w-8 h-8 text-purple-600" />
+                <div>
+                  <h4 className="font-semibold">Rédaction automatique</h4>
+                  <p className="text-sm text-gray-600">IA génère des brouillons de textes</p>
+                </div>
+              </div>
+              <Button variant="outline" size="sm" className="w-full">
+                <PenTool className="w-4 h-4 mr-2" />
+                Commencer
+              </Button>
+            </div>
+            
+            <div className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+              <div className="flex items-center gap-3 mb-3">
+                <Shield className="w-8 h-8 text-emerald-600" />
+                <div>
+                  <h4 className="font-semibold">Vérification de cohérence</h4>
+                  <p className="text-sm text-gray-600">Analyse automatique des contradictions</p>
+                </div>
+              </div>
+              <Button variant="outline" size="sm" className="w-full">
+                <Search className="w-4 h-4 mr-2" />
+                Vérifier
+              </Button>
+            </div>
+            
+            <div className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+              <div className="flex items-center gap-3 mb-3">
+                <Globe className="w-8 h-8 text-blue-600" />
+                <div>
+                  <h4 className="font-semibold">Traduction juridique</h4>
+                  <p className="text-sm text-gray-600">Traduction automatique spécialisée</p>
+                </div>
+              </div>
+              <Button variant="outline" size="sm" className="w-full">
+                <Globe className="w-4 h-4 mr-2" />
+                Traduire
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Activité récente */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Clock className="w-5 h-5 text-gray-600" />
+            Activité récente
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {[
+              {
+                action: "Consolidation du Code civil algérien",
+                time: "Il y a 2 heures",
+                status: "Terminé",
+                user: "Système automatique"
+              },
+              {
+                action: "Mise à jour des procédures de l'état civil",
+                time: "Il y a 4 heures", 
+                status: "En cours",
+                user: "Ahmed Benali"
+              },
+              {
+                action: "Génération rapport mensuel",
+                time: "Il y a 6 heures",
+                status: "Terminé",
+                user: "Système automatique"
+              },
+              {
+                action: "Consolidation des textes fiscaux",
+                time: "Il y a 1 jour",
+                status: "Terminé",
+                user: "Fatima Cherif"
+              }
+            ].map((activity, index) => (
+              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex-1">
+                  <h4 className="font-medium text-gray-900">{activity.action}</h4>
+                  <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">
+                    <span className="flex items-center gap-1">
+                      <User className="w-4 h-4" />
+                      {activity.user}
+                    </span>
+                    <span>{activity.time}</span>
                   </div>
-                  
-                  <div className="flex gap-2">
-                    <Button 
-                      className="flex-1 bg-teal-600 hover:bg-teal-700"
-                      onClick={() => handleTemplateSelect(modele.id)}
-                    >
-                      Utiliser ce modèle
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <Download className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                </div>
+                <Badge 
+                  variant={activity.status === 'Terminé' ? 'default' : 'secondary'}
+                  className={activity.status === 'Terminé' ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800'}
+                >
+                  {activity.status}
+                </Badge>
+              </div>
             ))}
           </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderConsolidatedTexts = () => (
+    <ConsolidatedTextsSection />
+  );
+
+  const renderConsolidatedProcedures = () => (
+    <ConsolidatedProceduresSection />
+  );
+
+  return (
+    <div className="space-y-6">
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
+          <TabsTrigger value="consolidated-texts">Textes juridiques consolidés</TabsTrigger>
+          <TabsTrigger value="consolidated-procedures">Procédures consolidées</TabsTrigger>
+        </TabsList>
+        <TabsContent value="overview" className="mt-6">
+          {renderOverview()}
         </TabsContent>
-
-        <TabsContent value="editor" className="space-y-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle>Éditeur de document</CardTitle>
-                    <div className="flex gap-2">
-                      <Select value={selectedTemplate} onValueChange={setSelectedTemplate}>
-                        <SelectTrigger className="w-48">
-                          <SelectValue placeholder="Choisir un modèle" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {modelsAlgeriens.map((modele) => (
-                            <SelectItem key={modele.id} value={modele.id}>
-                              {modele.nom}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <Button variant="outline" size="sm">
-                        <Wand2 className="w-4 h-4 mr-2" />
-                        IA
-                      </Button>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <Textarea
-                    placeholder="Commencez à rédiger votre document juridique..."
-                    value={documentContent}
-                    onChange={(e) => setDocumentContent(e.target.value)}
-                    className="min-h-96 font-mono text-sm"
-                  />
-                  
-                  <div className="flex justify-between mt-4">
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm">
-                        <Copy className="w-4 h-4 mr-2" />
-                        Copier
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        <Download className="w-4 h-4 mr-2" />
-                        PDF
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        <Download className="w-4 h-4 mr-2" />
-                        Word
-                      </Button>
-                    </div>
-                    <Button className="bg-teal-600 hover:bg-teal-700">
-                      <Save className="w-4 h-4 mr-2" />
-                      Enregistrer
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Informations du document</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="titre">Titre du document</Label>
-                    <Input id="titre" placeholder="Ex: Contrat de location..." />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="type">Type de document</Label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Sélectionner" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="contrat">Contrat</SelectItem>
-                        <SelectItem value="requete">Requête</SelectItem>
-                        <SelectItem value="statuts">Statuts</SelectItem>
-                        <SelectItem value="testament">Testament</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="parties">Parties concernées</Label>
-                    <Textarea id="parties" placeholder="Nom des parties..." rows={3} />
-                  </div>
-                  
-                  <div className="text-sm text-gray-500">
-                    <p>Mots: {documentContent.split(/\s+/).filter(word => word.length > 0).length}</p>
-                    <p>Caractères: {documentContent.length}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
+        <TabsContent value="consolidated-texts" className="mt-6">
+          {renderConsolidatedTexts()}
         </TabsContent>
-
-        <TabsContent value="suggestions" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Wand2 className="w-5 h-5 text-teal-600" />
-                Suggestions d'amélioration par IA
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {suggestionsIA.map((suggestion, index) => {
-                  const IconComponent = suggestion.icone;
-                  const colorClass = 
-                    suggestion.niveau === "valide" ? "text-green-600" :
-                    suggestion.niveau === "attention" ? "text-orange-600" :
-                    "text-blue-600";
-                  
-                  return (
-                    <div key={index} className="flex items-start gap-3 p-4 border rounded-lg">
-                      <IconComponent className={`w-5 h-5 ${colorClass} mt-0.5`} />
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-medium">{suggestion.type}</span>
-                          <Badge variant="outline" className="text-xs">
-                            {suggestion.niveau}
-                          </Badge>
-                        </div>
-                        <p className="text-gray-600">{suggestion.texte}</p>
-                      </div>
-                      <Button variant="outline" size="sm">
-                        Appliquer
-                      </Button>
-                    </div>
-                  );
-                })}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="references" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-teal-600" />
-                Références juridiques algériennes
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {referencesjuridiques.map((reference, index) => (
-                  <div key={index} className="p-4 border rounded-lg">
-                    <div className="flex items-start justify-between mb-2">
-                      <h4 className="font-medium text-gray-900">{reference.titre}</h4>
-                      <Badge 
-                        className={
-                          reference.pertinence === "Haute" ? "bg-green-100 text-green-800" :
-                          reference.pertinence === "Moyenne" ? "bg-yellow-100 text-yellow-800" :
-                          "bg-gray-100 text-gray-800"
-                        }
-                      >
-                        {reference.pertinence}
-                      </Badge>
-                    </div>
-                    <p className="text-gray-600 text-sm mb-3">{reference.contenu}</p>
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm">
-                        <Copy className="w-4 h-4 mr-2" />
-                        Citer
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        Voir l'article complet
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="consolidated-texts" className="space-y-4">
-          <ConsolidatedTextsSection />
-        </TabsContent>
-
-        <TabsContent value="consolidated-procedures" className="space-y-4">
-          <ConsolidatedProceduresSection />
+        <TabsContent value="consolidated-procedures" className="mt-6">
+          {renderConsolidatedProcedures()}
         </TabsContent>
       </Tabs>
     </div>
