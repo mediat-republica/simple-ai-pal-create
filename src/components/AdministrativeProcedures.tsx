@@ -1,0 +1,69 @@
+
+import { useState } from "react";
+import { AdministrativeProcedure } from "@/types/legal";
+import { ProceduresTabs } from "@/components/ProceduresTabs";
+import { ProcedureSummaryModal } from "@/components/ProcedureSummaryModal";
+import { ProcedureDetailView } from "@/components/procedures/ProcedureDetailView";
+import { ProcedureFormView } from "@/components/procedures/ProcedureFormView";
+import { mockProcedures } from "@/components/procedures/mockData";
+
+export function AdministrativeProcedures() {
+  const [selectedProcedure, setSelectedProcedure] = useState<AdministrativeProcedure | null>(null);
+  const [currentView, setCurrentView] = useState<'list' | 'detail' | 'form'>('list');
+  const [showSummaryModal, setShowSummaryModal] = useState(false);
+  const [lastAddedProcedure, setLastAddedProcedure] = useState<any>(null);
+
+  const handleProcedureSubmit = (data: any) => {
+    console.log('Procedure submitted:', data);
+    setLastAddedProcedure(data);
+    setCurrentView('list');
+    setShowSummaryModal(true);
+  };
+
+  const handleAddAnotherProcedure = () => {
+    setShowSummaryModal(false);
+    setCurrentView('form');
+  };
+
+  const handleCloseSummary = () => {
+    setShowSummaryModal(false);
+    setLastAddedProcedure(null);
+  };
+
+  if (currentView === 'form') {
+    return (
+      <ProcedureFormView 
+        onBack={() => setCurrentView('list')}
+        onSubmit={handleProcedureSubmit}
+      />
+    );
+  }
+
+  if (currentView === 'detail' && selectedProcedure) {
+    return (
+      <ProcedureDetailView 
+        procedure={selectedProcedure}
+        onBack={() => {
+          setSelectedProcedure(null);
+          setCurrentView('list');
+        }}
+      />
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <ProceduresTabs 
+        section="procedures-catalog" 
+        onAddProcedure={() => setCurrentView('form')}
+      />
+      
+      <ProcedureSummaryModal
+        isOpen={showSummaryModal}
+        onClose={handleCloseSummary}
+        onAddAnother={handleAddAnotherProcedure}
+        procedureData={lastAddedProcedure}
+      />
+    </div>
+  );
+}
