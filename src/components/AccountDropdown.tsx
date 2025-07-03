@@ -1,286 +1,325 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  User,
-  Settings,
-  Bell,
-  HelpCircle,
-  LogOut,
-  Languages,
-  Clock,
-  Monitor,
-  Download,
-  Upload,
-  Trash2,
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { 
+  User, 
+  Settings, 
+  Languages, 
+  HelpCircle, 
+  Info, 
+  LogOut, 
+  ChevronDown,
   Shield,
-  ChevronDown
+  Bell,
+  Palette,
+  Globe
 } from "lucide-react";
 
 export function AccountDropdown() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("preferences");
+  const [open, setOpen] = useState(false);
+  const [preferencesOpen, setPreferencesOpen] = useState(false);
+  const [languageOpen, setLanguageOpen] = useState(false);
+  const [supportOpen, setSupportOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
 
-  const AccountDialog = ({ children }: { children: React.ReactNode }) => (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Compte utilisateur</DialogTitle>
-          <DialogDescription>
-            Gérez vos préférences, notifications et données personnelles
-          </DialogDescription>
-        </DialogHeader>
-        
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="preferences">Préférences</TabsTrigger>
-            <TabsTrigger value="notifications">Notifications</TabsTrigger>
-            <TabsTrigger value="data">Données</TabsTrigger>
-          </TabsList>
+  const handleMenuClick = (action: string) => {
+    setOpen(false);
+    switch (action) {
+      case 'preferences':
+        setPreferencesOpen(true);
+        break;
+      case 'language':
+        setLanguageOpen(true);
+        break;
+      case 'support':
+        setSupportOpen(true);
+        break;
+      case 'about':
+        setAboutOpen(true);
+        break;
+      case 'logout':
+        console.log('Déconnexion');
+        break;
+    }
+  };
 
-          <TabsContent value="preferences" className="space-y-6">
+  return (
+    <>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button variant="ghost" className="gap-2 text-gray-700 hover:bg-gray-50">
+            <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
+              <User className="w-4 h-4 text-emerald-600" />
+            </div>
+            <div className="hidden md:block text-left">
+              <p className="text-sm font-medium">Ahmed Benali</p>
+              <p className="text-xs text-gray-500">Administrateur</p>
+            </div>
+            <ChevronDown className="w-3 h-3" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-64 p-2 bg-white border shadow-lg z-50" align="end">
+          <div className="space-y-1">
+            <div className="px-3 py-2 border-b">
+              <p className="font-medium text-gray-900">Ahmed Benali</p>
+              <p className="text-sm text-gray-500">ahmed.benali@justice.gov.dz</p>
+            </div>
+            
+            <Button
+              variant="ghost"
+              className="w-full justify-start gap-3 px-3 py-2"
+              onClick={() => handleMenuClick('preferences')}
+            >
+              <Settings className="w-4 h-4" />
+              Préférences
+            </Button>
+            
+            <Button
+              variant="ghost"
+              className="w-full justify-start gap-3 px-3 py-2"
+              onClick={() => handleMenuClick('language')}
+            >
+              <Languages className="w-4 h-4" />
+              Langue
+            </Button>
+            
+            <Separator className="my-1" />
+            
+            <Button
+              variant="ghost"
+              className="w-full justify-start gap-3 px-3 py-2"
+              onClick={() => handleMenuClick('support')}
+            >
+              <HelpCircle className="w-4 h-4" />
+              Assistance et support
+            </Button>
+            
+            <Button
+              variant="ghost"
+              className="w-full justify-start gap-3 px-3 py-2"
+              onClick={() => handleMenuClick('about')}
+            >
+              <Info className="w-4 h-4" />
+              À propos
+            </Button>
+            
+            <Separator className="my-1" />
+            
+            <Button
+              variant="ghost"
+              className="w-full justify-start gap-3 px-3 py-2 text-red-600 hover:bg-red-50"
+              onClick={() => handleMenuClick('logout')}
+            >
+              <LogOut className="w-4 h-4" />
+              Déconnexion
+            </Button>
+          </div>
+        </PopoverContent>
+      </Popover>
+
+      {/* Fenêtre Préférences */}
+      <Dialog open={preferencesOpen} onOpenChange={setPreferencesOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Settings className="w-5 h-5 text-emerald-600" />
+              Préférences utilisateur
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Languages className="w-5 h-5" />
-                  Langue et Région
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Bell className="w-4 h-4" />
+                  Notifications
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="language">Langue d'interface</Label>
-                  <Select defaultValue="fr">
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="fr">Français</SelectItem>
-                      <SelectItem value="ar">العربية</SelectItem>
-                      <SelectItem value="en">English</SelectItem>
-                    </SelectContent>
-                  </Select>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Notifications par email</span>
+                  <Badge variant="secondary">Activé</Badge>
                 </div>
-                
-                <div>
-                  <Label htmlFor="timezone">Fuseau horaire</Label>
-                  <Select defaultValue="africa-algiers">
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="africa-algiers">Afrique/Alger (GMT+1)</SelectItem>
-                      <SelectItem value="europe-paris">Europe/Paris (GMT+1)</SelectItem>
-                      <SelectItem value="utc">UTC (GMT+0)</SelectItem>
-                    </SelectContent>
-                  </Select>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Notifications push</span>
+                  <Badge variant="secondary">Activé</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Alertes juridiques</span>
+                  <Badge variant="secondary">Activé</Badge>
                 </div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Monitor className="w-5 h-5" />
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Palette className="w-4 h-4" />
                   Affichage
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="display-mode">Mode d'affichage</Label>
-                  <Select defaultValue="comfortable">
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="compact">Compact</SelectItem>
-                      <SelectItem value="comfortable">Confortable</SelectItem>
-                      <SelectItem value="spacious">Spacieux</SelectItem>
-                    </SelectContent>
-                  </Select>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Thème</span>
+                  <Badge variant="outline">Clair</Badge>
                 </div>
-                
-                <div>
-                  <Label htmlFor="theme">Thème</Label>
-                  <Select defaultValue="light">
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="light">Clair</SelectItem>
-                      <SelectItem value="dark">Sombre</SelectItem>
-                      <SelectItem value="auto">Automatique</SelectItem>
-                    </SelectContent>
-                  </Select>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Taille de police</span>
+                  <Badge variant="outline">Normale</Badge>
                 </div>
               </CardContent>
             </Card>
-          </TabsContent>
 
-          <TabsContent value="notifications" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Bell className="w-5 h-5" />
-                  Préférences de notifications
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Shield className="w-4 h-4" />
+                  Sécurité
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Nouveaux textes juridiques</Label>
-                    <p className="text-sm text-gray-500">Être notifié des nouveaux textes publiés</p>
-                  </div>
-                  <Switch defaultChecked />
+                  <span className="text-sm">Authentification à deux facteurs</span>
+                  <Badge className="bg-green-100 text-green-800">Activé</Badge>
                 </div>
-                
                 <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Discussions et commentaires</Label>
-                    <p className="text-sm text-gray-500">Notifications sur les discussions auxquelles vous participez</p>
-                  </div>
-                  <Switch defaultChecked />
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Rapports et analyses</Label>
-                    <p className="text-sm text-gray-500">Nouveaux rapports et analyses disponibles</p>
-                  </div>
-                  <Switch />
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Invitations à collaborer</Label>
-                    <p className="text-sm text-gray-500">Invitations à des espaces de travail collaboratifs</p>
-                  </div>
-                  <Switch defaultChecked />
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Maintenances et mises à jour</Label>
-                    <p className="text-sm text-gray-500">Informations système et mises à jour</p>
-                  </div>
-                  <Switch defaultChecked />
+                  <span className="text-sm">Sessions actives</span>
+                  <Badge variant="outline">2 appareils</Badge>
                 </div>
               </CardContent>
             </Card>
-          </TabsContent>
+          </div>
+        </DialogContent>
+      </Dialog>
 
-          <TabsContent value="data" className="space-y-6">
+      {/* Fenêtre Langue */}
+      <Dialog open={languageOpen} onOpenChange={setLanguageOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Languages className="w-5 h-5 text-emerald-600" />
+              Paramètres de langue
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <span className="text-xl">🇫🇷</span>
+                  <span>Français</span>
+                </div>
+                <Badge className="bg-emerald-100 text-emerald-800">Actuel</Badge>
+              </div>
+              <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                <div className="flex items-center gap-3">
+                  <span className="text-xl">🇩🇿</span>
+                  <span>العربية</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                <div className="flex items-center gap-3">
+                  <span className="text-xl">🇺🇸</span>
+                  <span>English</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Fenêtre Support */}
+      <Dialog open={supportOpen} onOpenChange={setSupportOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <HelpCircle className="w-5 h-5 text-emerald-600" />
+              Assistance et support
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Download className="w-5 h-5" />
-                  Gestion des données
-                </CardTitle>
+                <CardTitle className="text-base">Centre d'aide</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="space-y-1">
-                    <h4 className="font-medium">Export des données personnelles</h4>
-                    <p className="text-sm text-gray-500">Télécharger toutes vos données personnelles</p>
-                  </div>
-                  <Button variant="outline">
-                    <Download className="w-4 h-4 mr-2" />
-                    Exporter
-                  </Button>
-                </div>
-                
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="space-y-1">
-                    <h4 className="font-medium">Import de données</h4>
-                    <p className="text-sm text-gray-500">Importer des données depuis un autre système</p>
-                  </div>
-                  <Button variant="outline">
-                    <Upload className="w-4 h-4 mr-2" />
-                    Importer
-                  </Button>
-                </div>
-                
-                <Separator />
-                
-                <div className="flex items-center justify-between p-4 border rounded-lg border-red-200">
-                  <div className="space-y-1">
-                    <h4 className="font-medium text-red-700">Suppression du compte</h4>
-                    <p className="text-sm text-gray-500">Supprimer définitivement votre compte et toutes vos données</p>
-                  </div>
-                  <Button variant="destructive">
-                    <Trash2 className="w-4 h-4 mr-2" />
-                    Supprimer
-                  </Button>
+              <CardContent className="space-y-3">
+                <Button variant="outline" className="w-full justify-start">
+                  <Globe className="w-4 h-4 mr-2" />
+                  Guide utilisateur
+                </Button>
+                <Button variant="outline" className="w-full justify-start">
+                  <Globe className="w-4 h-4 mr-2" />
+                  FAQ - Questions fréquentes
+                </Button>
+                <Button variant="outline" className="w-full justify-start">
+                  <Globe className="w-4 h-4 mr-2" />
+                  Tutoriels vidéo
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Contact support</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="text-sm space-y-2">
+                  <p><strong>Email:</strong> support@dalil.dz</p>
+                  <p><strong>Téléphone:</strong> +213 21 XX XX XX</p>
+                  <p><strong>Horaires:</strong> Dimanche - Jeudi, 8h - 17h</p>
                 </div>
               </CardContent>
             </Card>
-          </TabsContent>
-        </Tabs>
-      </DialogContent>
-    </Dialog>
-  );
+          </div>
+        </DialogContent>
+      </Dialog>
 
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-emerald-600 rounded-full flex items-center justify-center">
-            <User className="w-4 h-4 text-white" />
+      {/* Fenêtre À propos */}
+      <Dialog open={aboutOpen} onOpenChange={setAboutOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Info className="w-5 h-5 text-emerald-600" />
+              À propos de dalil.dz
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="text-center">
+              <div className="w-16 h-12 bg-white rounded flex items-center justify-center mx-auto mb-4 border border-green-600">
+                <img 
+                  src="/lovable-uploads/cb1cbfba-f598-40da-acf6-b43632c703c6.png" 
+                  alt="Logo dalil.dz" 
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <h3 className="font-semibold text-lg">dalil.dz</h3>
+              <p className="text-sm text-gray-600">Plateforme de veille juridique et réglementaire</p>
+            </div>
+            
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span>Version:</span>
+                <span>2.1.0</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Dernière mise à jour:</span>
+                <span>15 janvier 2025</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Développé par:</span>
+                <span>Ministère de la Justice</span>
+              </div>
+            </div>
+            
+            <div className="text-xs text-gray-500 text-center">
+              © 2025 République Algérienne Démocratique et Populaire
+            </div>
           </div>
-          <div className="text-left hidden md:block">
-            <div className="font-medium">LAHOUAZI Youcef</div>
-            <div className="text-sm text-gray-500">Juriste Senior</div>
-          </div>
-          <ChevronDown className="w-4 h-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
-        <AccountDialog>
-          <DropdownMenuItem className="cursor-pointer">
-            <Settings className="w-4 h-4 mr-2" />
-            Préférences
-          </DropdownMenuItem>
-        </AccountDialog>
-        
-        <DropdownMenuItem>
-          <Languages className="w-4 h-4 mr-2" />
-          Langue
-        </DropdownMenuItem>
-        
-        <DropdownMenuItem>
-          <HelpCircle className="w-4 h-4 mr-2" />
-          Assistance et support
-        </DropdownMenuItem>
-        
-        <DropdownMenuItem>
-          <User className="w-4 h-4 mr-2" />
-          À propos
-        </DropdownMenuItem>
-        
-        <DropdownMenuSeparator />
-        
-        <DropdownMenuItem className="text-red-600">
-          <LogOut className="w-4 h-4 mr-2" />
-          Déconnexion
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

@@ -12,7 +12,8 @@ import {
   Plus,
   X,
   Building,
-  Calendar
+  Calendar,
+  AlertTriangle
 } from 'lucide-react';
 
 interface ProcedureSummaryModalProps {
@@ -39,6 +40,19 @@ export function ProcedureSummaryModal({
         </DialogHeader>
 
         <div className="space-y-6">
+          {/* Statut d'approbation */}
+          <Card className="border-orange-200 bg-orange-50">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <AlertTriangle className="w-5 h-5 text-orange-600" />
+                <div>
+                  <h4 className="font-semibold text-orange-800">Approbation requise - Procédure administrative</h4>
+                  <p className="text-sm text-orange-700">Statut de publication : En attente d'approbation</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Résumé principal */}
           <Card className="border-emerald-200 bg-emerald-50">
             <CardHeader>
@@ -111,8 +125,8 @@ export function ProcedureSummaryModal({
                   <Calendar className="w-4 h-4 text-gray-500" />
                   <span>Créée le {new Date().toLocaleDateString('fr-FR')}</span>
                 </div>
-                <Badge variant="secondary" className="bg-green-100 text-green-800">
-                  Statut: Active
+                <Badge variant="secondary" className="bg-orange-100 text-orange-800">
+                  Statut: En attente d'approbation
                 </Badge>
               </div>
 
@@ -134,12 +148,12 @@ export function ProcedureSummaryModal({
           {/* Prochaines étapes */}
           <Card className="bg-blue-50 border-blue-200">
             <CardContent className="p-4">
-              <h4 className="font-semibold text-blue-900 mb-2">Prochaines étapes recommandées</h4>
+              <h4 className="font-semibold text-blue-900 mb-2">Prochaines étapes du processus d'approbation</h4>
               <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Réviser et valider les informations saisies</li>
-                <li>• Ajouter des exemples et cas d'usage</li>
-                <li>• Tester la procédure avec des utilisateurs</li>
-                <li>• Publier dans le catalogue officiel</li>
+                <li>• Examen préliminaire par le chargé d'études (2-3 jours)</li>
+                <li>• Validation technique par l'expert technique (5-7 jours)</li>
+                <li>• Approbation administrative finale (3-5 jours)</li>
+                <li>• Publication sur la plateforme après approbation</li>
               </ul>
             </CardContent>
           </Card>
@@ -147,7 +161,7 @@ export function ProcedureSummaryModal({
           {/* Actions */}
           <div className="flex justify-between items-center pt-4 border-t">
             <div className="text-sm text-gray-600">
-              La procédure a été sauvegardée dans votre catalogue
+              La procédure a été soumise pour approbation
             </div>
             <div className="flex gap-3">
               <Button variant="outline" onClick={onClose}>
