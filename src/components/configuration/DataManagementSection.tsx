@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -86,6 +85,49 @@ export function DataManagementSection({ language = "fr" }: DataManagementSection
       description: "Publication finale du document",
       responsable: "Administrateur système",
       duree: "1 jour",
+      status: "Actif"
+    }
+  ];
+
+  const procedureWorkflowSteps = [
+    {
+      id: 1,
+      nom: "Soumission de la procédure",
+      description: "Soumission de la procédure administrative par le service demandeur",
+      responsable: "Service demandeur",
+      duree: "Immédiat",
+      status: "Actif"
+    },
+    {
+      id: 2,
+      nom: "Examen préliminaire",
+      description: "Vérification de la conformité et de la complétude du dossier",
+      responsable: "Chargé d'études",
+      duree: "2-3 jours",
+      status: "Actif"
+    },
+    {
+      id: 3,
+      nom: "Validation technique",
+      description: "Validation des aspects techniques et réglementaires",
+      responsable: "Expert technique",
+      duree: "5-7 jours",
+      status: "Actif"
+    },
+    {
+      id: 4,
+      nom: "Approbation administrative",
+      description: "Approbation finale par l'autorité compétente",
+      responsable: "Directeur administratif",
+      duree: "3-5 jours",
+      status: "Actif"
+    },
+    {
+      id: 5,
+      nom: "Mise en ligne",
+      description: "Publication de la procédure sur la plateforme",
+      responsable: "Administrateur système",
+      duree: "1-2 jours",
       status: "Actif"
     }
   ];
@@ -241,6 +283,57 @@ export function DataManagementSection({ language = "fr" }: DataManagementSection
                       <div className="flex items-center gap-3 mb-2">
                         <h4 className="font-semibold text-gray-900">{step.nom}</h4>
                         <Badge className="bg-green-100 text-green-800">{step.status}</Badge>
+                      </div>
+                      <p className="text-sm text-gray-600 mb-2">{step.description}</p>
+                      <div className="flex items-center gap-4 text-sm text-gray-500">
+                        <span className="flex items-center gap-1">
+                          <User className="w-3 h-3" />
+                          {step.responsable}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {step.duree}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button variant="outline" size="sm">
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                      <Button variant="outline" size="sm" className="text-red-600">
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <Workflow className="w-5 h-5 text-blue-600" />
+                  Workflow d'approbation des procédures administratives
+                </CardTitle>
+                <Button className="bg-blue-600 hover:bg-blue-700">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Modifier workflow
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {procedureWorkflowSteps.map((step, index) => (
+                  <div key={step.id} className="flex items-center p-4 border rounded-lg">
+                    <div className="flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-600 rounded-full mr-4 font-bold">
+                      {index + 1}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h4 className="font-semibold text-gray-900">{step.nom}</h4>
+                        <Badge className="bg-blue-100 text-blue-800">{step.status}</Badge>
                       </div>
                       <p className="text-sm text-gray-600 mb-2">{step.description}</p>
                       <div className="flex items-center gap-4 text-sm text-gray-500">
