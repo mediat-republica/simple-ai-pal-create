@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,7 +23,8 @@ import {
   Clock,
   BookOpen,
   Shield,
-  Globe
+  Globe,
+  User
 } from 'lucide-react';
 import { ConsolidatedTextsSection } from './writing/ConsolidatedTextsSection';
 import { ConsolidatedProceduresSection } from './writing/ConsolidatedProceduresSection';

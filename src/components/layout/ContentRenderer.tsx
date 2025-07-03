@@ -1,3 +1,4 @@
+
 import { Dashboard } from "@/components/Dashboard";
 import { LegalTextsSections } from "@/components/LegalTextsSections";
 import { AdministrativeProcedures } from "@/components/AdministrativeProcedures";
@@ -48,7 +49,7 @@ export function ContentRenderer({ activeSection, language }: ContentRendererProp
     case "reports":
       return <AnalysisReportsSections section={activeSection} language={language} />;
     case "assisted-writing":
-      return <EnhancedAssistedWritingSection language={language} />;
+      return <EnhancedAssistedWritingSection />;
     
     // Collaboration sections
     case "forum":
