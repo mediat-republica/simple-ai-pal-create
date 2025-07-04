@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -24,7 +23,8 @@ import {
   Star,
   MessageSquare,
   UserPlus,
-  ThumbsUp
+  ThumbsUp,
+  BookOpen
 } from 'lucide-react';
 
 interface ProcedureCatalogTabProps {
@@ -134,6 +134,16 @@ export function ProcedureCatalogTab({ searchTerm, setSearchTerm, onAddProcedure 
 
   return (
     <div className="space-y-6">
+      {/* En-tête avec logo, titre et description */}
+      <div className="text-center mb-8">
+        <BookOpen className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
+        <h2 className="text-3xl font-bold text-gray-800 mb-3">Catalogue des Procédures Administratives</h2>
+        <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+          Découvrez l'ensemble des procédures administratives algériennes avec des guides détaillés, 
+          formulaires officiels et instructions étape par étape
+        </p>
+      </div>
+
       {/* 1. Tableau de bord */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {stats.map((stat, index) => {

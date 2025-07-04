@@ -34,12 +34,13 @@ export function EnhancedAssistedWritingSection() {
 
   const renderOverview = () => (
     <div className="space-y-6">
-      {/* En-tête principal */}
+      {/* En-tête principal avec logo, titre et description améliorés */}
       <div className="text-center mb-8">
         <PenTool className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
         <h2 className="text-3xl font-bold text-gray-800 mb-3">Rédaction Assistée Algérienne</h2>
         <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-          Plateforme intelligente de rédaction et consolidation des textes juridiques et procédures administratives algériennes
+          Plateforme intelligente de rédaction et consolidation des textes juridiques et procédures administratives algériennes. 
+          Bénéficiez de l'assistance IA pour créer, consolider et harmoniser vos documents officiels.
         </p>
       </div>
 

@@ -33,7 +33,9 @@ import {
   MapPin,
   GitCompare,
   History,
-  Bookmark
+  Bookmark,
+  Layers,
+  HardDrive
 } from 'lucide-react';
 import { ProcedureHistoryTab } from './procedures/ProcedureHistoryTab';
 import { ProceduresPendingApprovalTab } from './procedures/ProceduresPendingApprovalTab';
@@ -168,48 +170,61 @@ export function ProceduresTabs({ section, onAddProcedure, onOpenApprovalQueue }:
   );
 
   const renderComparisonTab = () => (
-    <ProcedureComparisonSection />
+    <div className="space-y-6">
+      {/* En-tête avec logo, titre et description */}
+      <div className="text-center mb-8">
+        <GitCompare className="w-16 h-16 text-purple-600 mx-auto mb-4" />
+        <h2 className="text-3xl font-bold text-gray-800 mb-3">Comparaison des Procédures</h2>
+        <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+          Comparez différentes procédures administratives pour identifier les similitudes, 
+          différences et optimiser vos démarches
+        </p>
+      </div>
+      <ProcedureComparisonSection />
+    </div>
   );
 
   const renderSearchTab = () => (
-    <ProcedureSearchSection />
+    <div className="space-y-6">
+      {/* En-tête avec logo, titre et description */}
+      <div className="text-center mb-8">
+        <Search className="w-16 h-16 text-teal-600 mx-auto mb-4" />
+        <h2 className="text-3xl font-bold text-gray-800 mb-3">Recherche des Procédures</h2>
+        <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+          Trouvez rapidement les procédures administratives dont vous avez besoin avec nos outils 
+          de recherche avancés et géolocalisés
+        </p>
+      </div>
+      <ProcedureSearchSection />
+    </div>
   );
 
   const renderResourcesTab = () => (
-    <ProcedureResourcesSection />
+    <div className="space-y-6">
+      {/* En-tête avec logo, titre et description */}
+      <div className="text-center mb-8">
+        <Download className="w-16 h-16 text-blue-600 mx-auto mb-4" />
+        <h2 className="text-3xl font-bold text-gray-800 mb-3">Ressources Procédurales</h2>
+        <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+          Accédez aux formulaires officiels, guides pratiques et documents de référence 
+          pour vos démarches administratives
+        </p>
+      </div>
+      <ProcedureResourcesSection />
+    </div>
   );
 
   const renderEnrichmentTab = () => (
     <div className="space-y-6">
-      {/* Tableau de bord simplifié */}
-      <Card className="bg-gradient-to-r from-emerald-50 to-blue-50 border-emerald-200">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-emerald-800">
-            <BarChart3 className="w-5 h-5" />
-            Tableau de bord
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-              <div className="text-2xl font-bold text-emerald-600">1,856</div>
-              <div className="text-sm text-gray-600">Procédures ajoutées</div>
-            </div>
-            <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-              <div className="text-2xl font-bold text-blue-600">127</div>
-              <div className="text-sm text-gray-600">En cours</div>
-            </div>
-            <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-              <div className="text-2xl font-bold text-purple-600">234</div>
-              <div className="text-sm text-gray-600">Validées</div>
-            </div>
-            <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-              <div className="text-2xl font-bold text-orange-600">45</div>
-              <div className="text-sm text-gray-600">En attente</div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* En-tête avec logo, titre et description */}
+      <div className="text-center mb-8">
+        <HardDrive className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
+        <h2 className="text-3xl font-bold text-gray-800 mb-3">Alimentation de la Base de Données</h2>
+        <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+          Enrichissez et alimentez la base de données des procédures administratives avec 
+          de nouvelles entrées et mises à jour
+        </p>
+      </div>
 
       {/* Actions principales */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
