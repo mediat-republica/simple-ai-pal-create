@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -33,14 +32,15 @@ import {
   Bot,
   MapPin,
   GitCompare,
-  History
+  History,
+  Bookmark
 } from 'lucide-react';
 import { ProcedureHistoryTab } from './procedures/ProcedureHistoryTab';
 import { ProceduresPendingApprovalTab } from './procedures/ProceduresPendingApprovalTab';
 import { ProcedureCatalogTab } from './procedures/ProcedureCatalogTab';
 import { ProcedureResourcesSection } from './ProcedureResourcesSection';
 import { ProcedureComparisonSection } from './ProcedureComparisonSection';
-import { ProcedureSearchTabs } from './procedures/ProcedureSearchTabs';
+import { ProcedureSearchSection } from './ProcedureSearchSection';
 
 interface ProceduresTabsProps {
   section: string;
@@ -172,14 +172,7 @@ export function ProceduresTabs({ section, onAddProcedure, onOpenApprovalQueue }:
   );
 
   const renderSearchTab = () => (
-    <div className="space-y-6">
-      <ProcedureSearchTabs 
-        activeTab={activeSearchTab}
-        onTabChange={setActiveSearchTab}
-        searchQuery={searchQuery}
-        onSearchQueryChange={setSearchQuery}
-      />
-    </div>
+    <ProcedureSearchSection />
   );
 
   const renderResourcesTab = () => (
