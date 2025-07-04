@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -36,6 +37,10 @@ import {
 } from 'lucide-react';
 import { ProcedureHistoryTab } from './procedures/ProcedureHistoryTab';
 import { ProceduresPendingApprovalTab } from './procedures/ProceduresPendingApprovalTab';
+import { ProcedureCatalogTab } from './procedures/ProcedureCatalogTab';
+import { ProcedureResourcesSection } from './ProcedureResourcesSection';
+import { ProcedureComparisonSection } from './ProcedureComparisonSection';
+import { ProcedureSearchTabs } from './procedures/ProcedureSearchTabs';
 
 interface ProceduresTabsProps {
   section: string;
@@ -46,6 +51,8 @@ interface ProceduresTabsProps {
 export function ProceduresTabs({ section, onAddProcedure, onOpenApprovalQueue }: ProceduresTabsProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProcedures, setSelectedProcedures] = useState<string[]>([]);
+  const [activeSearchTab, setActiveSearchTab] = useState('basic');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleAddClick = () => {
     console.log('Bouton vert cliqué - Redirection vers le formulaire');
@@ -57,72 +64,126 @@ export function ProceduresTabs({ section, onAddProcedure, onOpenApprovalQueue }:
   };
 
   const renderCatalogTab = () => (
-    <div className="space-y-6">
-      {/* Timeline and catalog content can be implemented here */}
-      {/* For brevity, this example focuses on enrichment tab and pending approval tab */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Catalogue des procédures administratives</CardTitle>
-          <CardDescription>
-            Liste des procédures disponibles
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>Contenu du catalogue des procédures...</p>
-        </CardContent>
-      </Card>
-    </div>
+    <ProcedureCatalogTab 
+      searchTerm={searchTerm}
+      setSearchTerm={setSearchTerm}
+      onAddProcedure={handleAddClick}
+    />
   );
 
   const renderTimelineTab = () => (
     <div className="space-y-6">
-      {/* Timeline content can be implemented here */}
       <Card>
         <CardHeader>
-          <CardTitle>Timeline des procédures</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Clock className="w-5 h-5 text-blue-600" />
+            Timeline des procédures administratives
+          </CardTitle>
           <CardDescription>
-            Évolution chronologique des procédures
+            Évolution chronologique des procédures administratives algériennes
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <p>Contenu de la timeline des procédures...</p>
+          <div className="space-y-6">
+            {/* Timeline visualization */}
+            <div className="relative">
+              <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>
+              
+              {[
+                {
+                  date: "2024",
+                  title: "Digitalisation des procédures",
+                  description: "Lancement du programme de numérisation des procédures administratives",
+                  status: "En cours",
+                  color: "bg-blue-500"
+                },
+                {
+                  date: "2023",
+                  title: "Simplification administrative",
+                  description: "Réduction du nombre d'étapes pour 150+ procédures",
+                  status: "Terminé",
+                  color: "bg-green-500"
+                },
+                {
+                  date: "2022",
+                  title: "Harmonisation des formulaires",
+                  description: "Standardisation des formulaires officiels",
+                  status: "Terminé",
+                  color: "bg-green-500"
+                },
+                {
+                  date: "2021",
+                  title: "Base de données unifiée",
+                  description: "Création de la base de données centralisée des procédures",
+                  status: "Terminé",
+                  color: "bg-green-500"
+                }
+              ].map((item, index) => (
+                <div key={index} className="relative flex items-start space-x-4 pb-8">
+                  <div className={`flex-shrink-0 w-8 h-8 ${item.color} rounded-full flex items-center justify-center relative z-10`}>
+                    <Calendar className="w-4 h-4 text-white" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h4 className="text-lg font-semibold text-gray-900">{item.title}</h4>
+                      <Badge variant={item.status === 'Terminé' ? 'default' : 'secondary'}>
+                        {item.status}
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-gray-600 mb-2">{item.description}</p>
+                    <p className="text-xs text-gray-400">{item.date}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Statistics */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+              <Card className="bg-blue-50 border-blue-200">
+                <CardContent className="p-4 text-center">
+                  <TrendingUp className="w-8 h-8 mx-auto text-blue-600 mb-2" />
+                  <div className="text-2xl font-bold text-blue-600">+45%</div>
+                  <div className="text-sm text-gray-600">Amélioration efficacité</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-green-50 border-green-200">
+                <CardContent className="p-4 text-center">
+                  <CheckCircle className="w-8 h-8 mx-auto text-green-600 mb-2" />
+                  <div className="text-2xl font-bold text-green-600">287</div>
+                  <div className="text-sm text-gray-600">Procédures modernisées</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-purple-50 border-purple-200">
+                <CardContent className="p-4 text-center">
+                  <Users className="w-8 h-8 mx-auto text-purple-600 mb-2" />
+                  <div className="text-2xl font-bold text-purple-600">1.2M</div>
+                  <div className="text-sm text-gray-600">Citoyens bénéficiaires</div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>
   );
 
   const renderComparisonTab = () => (
-    <div className="space-y-6">
-      {/* Comparison content can be implemented here */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Comparaison des procédures</CardTitle>
-          <CardDescription>
-            Comparer plusieurs procédures administratives
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>Contenu de la comparaison des procédures...</p>
-        </CardContent>
-      </Card>
-    </div>
+    <ProcedureComparisonSection />
   );
 
   const renderSearchTab = () => (
     <div className="space-y-6">
-      {/* Search content can be implemented here */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Recherche des procédures</CardTitle>
-          <CardDescription>
-            Recherche avancée dans les procédures administratives
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>Contenu de la recherche des procédures...</p>
-        </CardContent>
-      </Card>
+      <ProcedureSearchTabs 
+        activeTab={activeSearchTab}
+        onTabChange={setActiveSearchTab}
+        searchQuery={searchQuery}
+        onSearchQueryChange={setSearchQuery}
+      />
     </div>
+  );
+
+  const renderResourcesTab = () => (
+    <ProcedureResourcesSection />
   );
 
   const renderEnrichmentTab = () => (
@@ -251,6 +312,13 @@ export function ProceduresTabs({ section, onAddProcedure, onOpenApprovalQueue }:
           defaultValue: 'search',
           tabs: [
             { value: 'search', label: 'Recherche', content: renderSearchTab() }
+          ]
+        };
+      case 'procedures-resources':
+        return {
+          defaultValue: 'resources',
+          tabs: [
+            { value: 'resources', label: 'Ressources', content: renderResourcesTab() }
           ]
         };
       default:
