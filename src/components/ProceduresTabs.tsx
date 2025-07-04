@@ -189,7 +189,7 @@ export function ProceduresTabs({ section, onAddProcedure, onOpenApprovalQueue }:
       {/* En-tête avec logo, titre et description */}
       <div className="text-center mb-8">
         <Search className="w-16 h-16 text-teal-600 mx-auto mb-4" />
-        <h2 className="text-3xl font-bold text-gray-800 mb-3">Recherche des Procédures</h2>
+        <h2 className="text-3xl font-bold text-gray-800 mb-3">Recherche des procédures</h2>
         <p className="text-gray-600 max-w-3xl mx-auto text-lg">
           Trouvez rapidement les procédures administratives dont vous avez besoin avec nos outils 
           de recherche avancés et géolocalisés
@@ -204,7 +204,7 @@ export function ProceduresTabs({ section, onAddProcedure, onOpenApprovalQueue }:
       {/* En-tête avec logo, titre et description */}
       <div className="text-center mb-8">
         <Download className="w-16 h-16 text-blue-600 mx-auto mb-4" />
-        <h2 className="text-3xl font-bold text-gray-800 mb-3">Ressources Procédurales</h2>
+        <h2 className="text-3xl font-bold text-gray-800 mb-3">Ressources procédurales</h2>
         <p className="text-gray-600 max-w-3xl mx-auto text-lg">
           Accédez aux formulaires officiels, guides pratiques et documents de référence 
           pour vos démarches administratives
@@ -219,7 +219,7 @@ export function ProceduresTabs({ section, onAddProcedure, onOpenApprovalQueue }:
       {/* En-tête avec logo, titre et description */}
       <div className="text-center mb-8">
         <HardDrive className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
-        <h2 className="text-3xl font-bold text-gray-800 mb-3">Alimentation de la Base de Données</h2>
+        <h2 className="text-3xl font-bold text-gray-800 mb-3">Alimentation de la banque de données</h2>
         <p className="text-gray-600 max-w-3xl mx-auto text-lg">
           Enrichissez et alimentez la base de données des procédures administratives avec 
           de nouvelles entrées et mises à jour

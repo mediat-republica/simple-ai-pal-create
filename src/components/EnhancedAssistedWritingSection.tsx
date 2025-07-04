@@ -37,7 +37,7 @@ export function EnhancedAssistedWritingSection() {
       {/* En-tête principal avec logo, titre et description améliorés */}
       <div className="text-center mb-8">
         <PenTool className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
-        <h2 className="text-3xl font-bold text-gray-800 mb-3">Rédaction Assistée Algérienne</h2>
+        <h2 className="text-3xl font-bold text-gray-800 mb-3">Rédaction assistée algérienne</h2>
         <p className="text-gray-600 max-w-3xl mx-auto text-lg">
           Plateforme intelligente de rédaction et consolidation des textes juridiques et procédures administratives algériennes. 
           Bénéficiez de l'assistance IA pour créer, consolider et harmoniser vos documents officiels.
@@ -292,11 +292,31 @@ export function EnhancedAssistedWritingSection() {
   );
 
   const renderConsolidatedTexts = () => (
-    <ConsolidatedTextsSection />
+    <div className="space-y-6">
+      {/* En-tête avec logo, titre et description */}
+      <div className="text-center mb-8">
+        <Scale className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
+        <h2 className="text-3xl font-bold text-gray-800 mb-3">Textes juridiques consolidés</h2>
+        <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+          Consolidation automatique et mise à jour des textes juridiques algériens avec assistance IA
+        </p>
+      </div>
+      <ConsolidatedTextsSection />
+    </div>
   );
 
   const renderConsolidatedProcedures = () => (
-    <ConsolidatedProceduresSection />
+    <div className="space-y-6">
+      {/* En-tête avec logo, titre et description */}
+      <div className="text-center mb-8">
+        <FileText className="w-16 h-16 text-blue-600 mx-auto mb-4" />
+        <h2 className="text-3xl font-bold text-gray-800 mb-3">Procédures consolidées</h2>
+        <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+          Consolidation et harmonisation des procédures administratives algériennes
+        </p>
+      </div>
+      <ConsolidatedProceduresSection />
+    </div>
   );
 
   return (
