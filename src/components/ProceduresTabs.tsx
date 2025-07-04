@@ -171,61 +171,24 @@ export function ProceduresTabs({ section, onAddProcedure, onOpenApprovalQueue }:
 
   const renderComparisonTab = () => (
     <div className="space-y-6">
-      {/* En-tête avec logo, titre et description */}
-      <div className="text-center mb-8">
-        <GitCompare className="w-16 h-16 text-purple-600 mx-auto mb-4" />
-        <h2 className="text-3xl font-bold text-gray-800 mb-3">Comparaison des Procédures</h2>
-        <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-          Comparez différentes procédures administratives pour identifier les similitudes, 
-          différences et optimiser vos démarches
-        </p>
-      </div>
       <ProcedureComparisonSection />
     </div>
   );
 
   const renderSearchTab = () => (
     <div className="space-y-6">
-      {/* En-tête avec logo, titre et description */}
-      <div className="text-center mb-8">
-        <Search className="w-16 h-16 text-teal-600 mx-auto mb-4" />
-        <h2 className="text-3xl font-bold text-gray-800 mb-3">Recherche des procédures</h2>
-        <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-          Trouvez rapidement les procédures administratives dont vous avez besoin avec nos outils 
-          de recherche avancés et géolocalisés
-        </p>
-      </div>
       <ProcedureSearchSection />
     </div>
   );
 
   const renderResourcesTab = () => (
     <div className="space-y-6">
-      {/* En-tête avec logo, titre et description */}
-      <div className="text-center mb-8">
-        <Download className="w-16 h-16 text-blue-600 mx-auto mb-4" />
-        <h2 className="text-3xl font-bold text-gray-800 mb-3">Ressources procédurales</h2>
-        <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-          Accédez aux formulaires officiels, guides pratiques et documents de référence 
-          pour vos démarches administratives
-        </p>
-      </div>
       <ProcedureResourcesSection />
     </div>
   );
 
   const renderEnrichmentTab = () => (
     <div className="space-y-6">
-      {/* En-tête avec logo, titre et description */}
-      <div className="text-center mb-8">
-        <HardDrive className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
-        <h2 className="text-3xl font-bold text-gray-800 mb-3">Alimentation de la banque de données</h2>
-        <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-          Enrichissez et alimentez la base de données des procédures administratives avec 
-          de nouvelles entrées et mises à jour
-        </p>
-      </div>
-
       {/* Actions principales */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={handleAddClick}>
@@ -341,8 +304,61 @@ export function ProceduresTabs({ section, onAddProcedure, onOpenApprovalQueue }:
 
   const tabsConfig = getTabsConfig();
 
+  // Headers pour chaque section
+  const getSectionHeader = () => {
+    switch (section) {
+      case 'procedures-catalog':
+        return {
+          icon: FileText,
+          title: 'Catalogue des procédures administratives',
+          description: 'Parcourez et gérez la collection complète des procédures administratives algériennes',
+          iconColor: 'text-emerald-600'
+        };
+      case 'procedures-enrichment':
+        return {
+          icon: HardDrive,
+          title: 'Alimentation de la banque de données',
+          description: 'Enrichissez et alimentez la base de données des procédures administratives avec de nouvelles entrées et mises à jour',
+          iconColor: 'text-emerald-600'
+        };
+      case 'procedures-search':
+        return {
+          icon: Search,
+          title: 'Recherche des procédures',
+          description: 'Trouvez rapidement les procédures administratives dont vous avez besoin avec nos outils de recherche avancés et géolocalisés',
+          iconColor: 'text-teal-600'
+        };
+      case 'procedures-resources':
+        return {
+          icon: Download,
+          title: 'Ressources procédurales',
+          description: 'Accédez aux formulaires officiels, guides pratiques et documents de référence pour vos démarches administratives',
+          iconColor: 'text-blue-600'
+        };
+      default:
+        return {
+          icon: FileText,
+          title: 'Catalogue des procédures administratives',
+          description: 'Parcourez et gérez la collection complète des procédures administratives algériennes',
+          iconColor: 'text-emerald-600'
+        };
+    }
+  };
+
+  const header = getSectionHeader();
+  const IconComponent = header.icon;
+
   return (
     <div className="space-y-6">
+      {/* En-tête avec logo, titre et description */}
+      <div className="flex items-center gap-4 mb-8">
+        <IconComponent className={`w-16 h-16 ${header.iconColor}`} />
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">{header.title}</h1>
+          <p className="text-gray-600 text-lg max-w-4xl">{header.description}</p>
+        </div>
+      </div>
+
       <Tabs defaultValue={tabsConfig.defaultValue} className="w-full">
         <TabsList className={`grid w-full ${tabsConfig.tabs.length === 1 ? 'grid-cols-1' : 
           tabsConfig.tabs.length === 2 ? 'grid-cols-2' : 

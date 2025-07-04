@@ -39,15 +39,6 @@ interface ProcedureCatalogTabProps {
 export function ProcedureCatalogTab({ searchTerm, setSearchTerm, onAddProcedure }: ProcedureCatalogTabProps) {
   return (
     <div className="space-y-6">
-      {/* En-tête avec logo, titre et description */}
-      <div className="text-center mb-8">
-        <FileText className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
-        <h2 className="text-3xl font-bold text-gray-800 mb-3">Catalogue des procédures administratives</h2>
-        <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-          Parcourez et gérez la collection complète des procédures administratives algériennes
-        </p>
-      </div>
-
       {/* Tableau de bord */}
       <Card className="bg-gradient-to-r from-emerald-50 to-blue-50 border-emerald-200">
         <CardHeader>
