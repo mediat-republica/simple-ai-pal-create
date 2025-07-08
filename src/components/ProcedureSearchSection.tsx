@@ -5,9 +5,11 @@ import {
   MapPin, 
   Bot, 
   Bookmark,
-  TrendingUp
+  TrendingUp,
+  History
 } from "lucide-react";
 import { SavedSearchesEnhanced } from "./SavedSearchesEnhanced";
+import { ProcedureSearchHistoryTab } from "./procedures/ProcedureSearchHistoryTab";
 import { SectionTabsNavigation } from "./common/SectionTabsNavigation";
 import { SearchCard } from "./common/SearchCard";
 import { SavedItemsList } from "./common/SavedItemsList";
@@ -20,9 +22,14 @@ export function ProcedureSearchSection() {
     return <SavedSearchesEnhanced />;
   }
 
+  if (activeTab === "search-history") {
+    return <ProcedureSearchHistoryTab />;
+  }
+
   const tabs = [
     { id: "search", label: "Recherche" },
-    { id: "saved-searches", label: "Recherches sauvegardées", count: 12 }
+    { id: "saved-searches", label: "Recherches sauvegardées", count: 12 },
+    { id: "search-history", label: "Historique des recherches", count: 45 }
   ];
 
   const searchCards = [
