@@ -15,7 +15,7 @@ const VALID_SECTIONS = new Set([
   "forum", "collaborative-workspace", "shared-resources",
   "news", "library", "dictionaries", "directories",
   "nomenclature", "complementary-resources", "data-management", "alerts-notifications", "user-management",
-  "security", "mobile-app", "accessibility-settings", "offline-mode",
+  "security", "integrations-interoperability", "mobile-app", "accessibility-settings", "offline-mode",
   "about", "contact", "technical-support", "ai-search", "ai-advanced", "favorites",
   "data-extraction", "document-templates", "advanced-search", "saved-searches",
   "ai-assistant", "ai-comprehensive-test"

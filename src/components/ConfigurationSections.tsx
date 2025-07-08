@@ -1,4 +1,3 @@
-
 import { Settings } from 'lucide-react';
 import { SectionHeader } from './common/SectionHeader';
 import { NomenclatureSection } from "./configuration/NomenclatureSection";
@@ -8,6 +7,7 @@ import { AlertsNotificationsSection } from "./configuration/AlertsNotificationsS
 import { UserManagementSection } from "./configuration/UserManagementSection";
 import { SecuritySection } from "./configuration/SecuritySection";
 import { MobileAppSection } from "./configuration/MobileAppSection";
+import { IntegrationsInteroperabilitySection } from "./configuration/IntegrationsInteroperabilitySection";
 
 interface ConfigurationSectionsProps {
   section: string;
@@ -24,6 +24,7 @@ export function ConfigurationSections({ section, language = "fr" }: Configuratio
         'alerts-notifications': 'Alertes & Notifications',
         'user-management': 'Gestion des Utilisateurs',
         'security': 'Sécurité',
+        'integrations-interoperability': 'Intégrations et Interopérabilité',
         'mobile-app': 'Version Mobile Native'
       },
       ar: {
@@ -33,6 +34,7 @@ export function ConfigurationSections({ section, language = "fr" }: Configuratio
         'alerts-notifications': 'التنبيهات والإشعارات',
         'user-management': 'إدارة المستخدمين',
         'security': 'الأمان',
+        'integrations-interoperability': 'التكامل والتشغيل البيني',
         'mobile-app': 'النسخة المحمولة الأصلية'
       },
       en: {
@@ -42,6 +44,7 @@ export function ConfigurationSections({ section, language = "fr" }: Configuratio
         'alerts-notifications': 'Alerts & Notifications',
         'user-management': 'User Management',
         'security': 'Security',
+        'integrations-interoperability': 'Integrations and Interoperability',
         'mobile-app': 'Native Mobile Version'
       }
     };
@@ -57,6 +60,7 @@ export function ConfigurationSections({ section, language = "fr" }: Configuratio
         'alerts-notifications': 'Configurez les alertes et notifications du système.',
         'user-management': 'Gérez les utilisateurs, rôles et permissions.',
         'security': 'Configurez les paramètres de sécurité et authentification.',
+        'integrations-interoperability': 'Configurez les intégrations et standards d\'interopérabilité.',
         'mobile-app': 'Paramètres et configuration de l\'application mobile native.'
       },
       ar: {
@@ -66,6 +70,7 @@ export function ConfigurationSections({ section, language = "fr" }: Configuratio
         'alerts-notifications': 'اضبط تنبيهات وإشعارات النظام.',
         'user-management': 'أدر المستخدمين والأدوار والصلاحيات.',
         'security': 'اضبط إعدادات الأمان والمصادقة.',
+        'integrations-interoperability': 'اضبط التكامل ومعايير التشغيل البيني.',
         'mobile-app': 'إعدادات وتكوين التطبيق المحمول الأصلي.'
       },
       en: {
@@ -75,6 +80,7 @@ export function ConfigurationSections({ section, language = "fr" }: Configuratio
         'alerts-notifications': 'Configure system alerts and notifications.',
         'user-management': 'Manage users, roles and permissions.',
         'security': 'Configure security settings and authentication.',
+        'integrations-interoperability': 'Configure integrations and interoperability standards.',
         'mobile-app': 'Settings and configuration of the native mobile application.'
       }
     };
@@ -95,6 +101,8 @@ export function ConfigurationSections({ section, language = "fr" }: Configuratio
         return <UserManagementSection language={language} />;
       case "security":
         return <SecuritySection language={language} />;
+      case "integrations-interoperability":
+        return <IntegrationsInteroperabilitySection language={language} />;
       case "mobile-app":
         return <MobileAppSection language={language} />;
       default:
