@@ -91,6 +91,7 @@ export function ContentRenderer({ activeSection, language }: ContentRendererProp
     case "data-management":
     case "alerts-notifications":
     case "user-management":
+    case "integrations-interoperability":
       return <ConfigurationSections section={activeSection} language={language} />;
     
     // New security section
