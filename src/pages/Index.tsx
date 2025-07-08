@@ -15,7 +15,7 @@ const VALID_SECTIONS = new Set([
   "forum", "collaborative-workspace", "shared-resources",
   "news", "library", "dictionaries", "directories",
   "nomenclature", "complementary-resources", "data-management", "alerts-notifications", "user-management",
-  "security", "integrations-interoperability", "mobile-app", "accessibility-settings", "offline-mode",
+  "security", "integrations-interoperability", "accessibility-settings", "offline-mode", "mobile-app",
   "about", "contact", "technical-support", "ai-search", "ai-advanced", "favorites",
   "data-extraction", "document-templates", "advanced-search", "saved-searches",
   "ai-assistant", "ai-comprehensive-test"
@@ -27,8 +27,10 @@ const Index = () => {
 
   // Validation de section avec callback mémorisé
   const handleSectionChange = useCallback((section: string) => {
+    console.log('Attempting to navigate to section:', section);
     if (VALID_SECTIONS.has(section)) {
       setActiveSection(section);
+      console.log('Successfully navigated to section:', section);
     } else {
       console.warn(`Section invalide tentée: ${section}`);
     }

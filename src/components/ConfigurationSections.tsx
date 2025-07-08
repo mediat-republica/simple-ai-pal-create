@@ -1,3 +1,4 @@
+
 import { Settings } from 'lucide-react';
 import { SectionHeader } from './common/SectionHeader';
 import { NomenclatureSection } from "./configuration/NomenclatureSection";
@@ -8,6 +9,8 @@ import { UserManagementSection } from "./configuration/UserManagementSection";
 import { SecuritySection } from "./configuration/SecuritySection";
 import { MobileAppSection } from "./configuration/MobileAppSection";
 import { IntegrationsInteroperabilitySection } from "./configuration/IntegrationsInteroperabilitySection";
+import { AccessibilitySettings } from "./configuration/AccessibilitySettings";
+import { OfflineMode } from "./configuration/OfflineMode";
 
 interface ConfigurationSectionsProps {
   section: string;
@@ -25,6 +28,8 @@ export function ConfigurationSections({ section, language = "fr" }: Configuratio
         'user-management': 'Gestion des Utilisateurs',
         'security': 'Sécurité',
         'integrations-interoperability': 'Intégrations et Interopérabilité',
+        'accessibility-settings': 'Personnes à mobilité réduite',
+        'offline-mode': 'Mode hors-ligne',
         'mobile-app': 'Version Mobile Native'
       },
       ar: {
@@ -35,6 +40,8 @@ export function ConfigurationSections({ section, language = "fr" }: Configuratio
         'user-management': 'إدارة المستخدمين',
         'security': 'الأمان',
         'integrations-interoperability': 'التكامل والتشغيل البيني',
+        'accessibility-settings': 'الأشخاص ذوو الإعاقة الحركية',
+        'offline-mode': 'الوضع غير المتصل',
         'mobile-app': 'النسخة المحمولة الأصلية'
       },
       en: {
@@ -45,6 +52,8 @@ export function ConfigurationSections({ section, language = "fr" }: Configuratio
         'user-management': 'User Management',
         'security': 'Security',
         'integrations-interoperability': 'Integrations and Interoperability',
+        'accessibility-settings': 'Accessibility Settings',
+        'offline-mode': 'Offline Mode',
         'mobile-app': 'Native Mobile Version'
       }
     };
@@ -61,6 +70,8 @@ export function ConfigurationSections({ section, language = "fr" }: Configuratio
         'user-management': 'Gérez les utilisateurs, rôles et permissions.',
         'security': 'Configurez les paramètres de sécurité et authentification.',
         'integrations-interoperability': 'Configurez les intégrations et standards d\'interopérabilité.',
+        'accessibility-settings': 'Paramètres d\'accessibilité pour personnes à mobilité réduite.',
+        'offline-mode': 'Configuration du mode de fonctionnement hors-ligne.',
         'mobile-app': 'Paramètres et configuration de l\'application mobile native.'
       },
       ar: {
@@ -71,6 +82,8 @@ export function ConfigurationSections({ section, language = "fr" }: Configuratio
         'user-management': 'أدر المستخدمين والأدوار والصلاحيات.',
         'security': 'اضبط إعدادات الأمان والمصادقة.',
         'integrations-interoperability': 'اضبط التكامل ومعايير التشغيل البيني.',
+        'accessibility-settings': 'إعدادات إمكانية الوصول للأشخاص ذوي الإعاقة الحركية.',
+        'offline-mode': 'تكوين وضع التشغيل بدون اتصال.',
         'mobile-app': 'إعدادات وتكوين التطبيق المحمول الأصلي.'
       },
       en: {
@@ -81,6 +94,8 @@ export function ConfigurationSections({ section, language = "fr" }: Configuratio
         'user-management': 'Manage users, roles and permissions.',
         'security': 'Configure security settings and authentication.',
         'integrations-interoperability': 'Configure integrations and interoperability standards.',
+        'accessibility-settings': 'Accessibility settings for people with reduced mobility.',
+        'offline-mode': 'Configure offline mode operation.',
         'mobile-app': 'Settings and configuration of the native mobile application.'
       }
     };
@@ -103,6 +118,10 @@ export function ConfigurationSections({ section, language = "fr" }: Configuratio
         return <SecuritySection language={language} />;
       case "integrations-interoperability":
         return <IntegrationsInteroperabilitySection language={language} />;
+      case "accessibility-settings":
+        return <AccessibilitySettings language={language} />;
+      case "offline-mode":
+        return <OfflineMode language={language} />;
       case "mobile-app":
         return <MobileAppSection language={language} />;
       default:
